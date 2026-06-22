@@ -3,6 +3,7 @@ import { sql } from "@/lib/db";
 type Person = {
   id: number;
   name: string;
+  job: string;
   created_at: string;
 };
 
@@ -52,7 +53,10 @@ export default async function Home() {
                 <div className="w-10 h-10 rounded-full bg-indigo-700 flex items-center justify-center text-lg font-bold text-white shrink-0">
                   {person.name[0].toUpperCase()}
                 </div>
-                <span className="text-lg font-medium">{person.name}</span>
+                <div>
+                  <p className="text-lg font-medium">{person.name}</p>
+                  <p className="text-sm text-gray-400">{person.job}</p>
+                </div>
                 <span className="ml-auto text-xs text-gray-600">
                   #{person.id}
                 </span>
