@@ -31,6 +31,10 @@ export default async function Home() {
         </h1>
         <p className="text-gray-400 mb-8">People — pulled from Neon Postgres</p>
 
+        <div className="mb-10">
+          <p className="text-6xl font-black text-white">Hello World</p>
+        </div>
+
         {error ? (
           <div className="bg-red-900/40 border border-red-700 rounded-lg p-4 text-red-300">
             {error}
