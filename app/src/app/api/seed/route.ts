@@ -17,8 +17,12 @@ export async function GET() {
     INSERT INTO people (name, job) VALUES
       ('Frank', 'Sound Engineer'),
       ('Sally', 'Music Producer'),
-      ('George', 'Session Guitarist')
+      ('George', 'Session Guitarist'),
+      ('Paul', 'Mixing Engineer'),
+      ('Rosa', 'A&R Manager'),
+      ('Leo', 'Beat Maker'),
+      ('Diane', 'Vocalist')
   `;
 
-  return NextResponse.json({ message: "Database seeded with Frank, Sally, and George" });
+  return NextResponse.json({ message: "Database seeded with 7 people" });
 }
