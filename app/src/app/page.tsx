@@ -1,76 +1,68 @@
 import { sql } from "@/lib/db";
 
-type Track = {
+type Person = {
   id: number;
-  title: string;
-  artist: string;
-  genre: string;
-  bpm: number;
+  name: string;
   created_at: string;
 };
 
-async function getTracks(): Promise<Track[]> {
-  const rows = await sql`SELECT * FROM tracks ORDER BY id`;
-  return rows as Track[];
+async function getPeople(): Promise<Person[]> {
+  const rows = await sql`SELECT * FROM people ORDER BY id`;
+  return rows as Person[];
 }
 
 export default async function Home() {
-  let tracks: Track[] = [];
+  let people: Person[] = [];
   let error: string | null = null;
 
   try {
-    tracks = await getTracks();
+    people = await getPeople();
   } catch {
     error =
-      "Could not load tracks. Have you seeded the database? Visit /api/seed first.";
+      "Could not load people. Visit /api/seed to populate the database first.";
   }
 
   return (
     <main className="min-h-screen bg-gray-950 text-white p-10">
-      <div className="max-w-3xl mx-auto">
+      <div className="max-w-xl mx-auto">
         <h1 className="text-4xl font-bold mb-2 text-indigo-400">
           Producer Flow
         </h1>
-        <p className="text-gray-400 mb-8">
-          Track library — powered by Neon Postgres
-        </p>
+        <p className="text-gray-400 mb-8">People — pulled from Neon Postgres</p>
 
         {error ? (
           <div className="bg-red-900/40 border border-red-700 rounded-lg p-4 text-red-300">
             {error}
           </div>
-        ) : tracks.length === 0 ? (
+        ) : people.length === 0 ? (
           <div className="bg-yellow-900/40 border border-yellow-700 rounded-lg p-4 text-yellow-300">
-            No tracks found. Visit{" "}
+            No people found. Visit{" "}
             <a href="/api/seed" className="underline">
               /api/seed
             </a>{" "}
             to populate the database.
           </div>
         ) : (
-          <div className="space-y-4">
-            {tracks.map((track) => (
-              <div
-                key={track.id}
-                className="bg-gray-900 border border-gray-800 rounded-xl p-5 flex items-center justify-between"
+          <ul className="space-y-3">
+            {people.map((person) => (
+              <li
+                key={person.id}
+                className="bg-gray-900 border border-gray-800 rounded-xl px-6 py-4 flex items-center gap-4"
               >
-                <div>
-                  <p className="text-lg font-semibold">{track.title}</p>
-                  <p className="text-gray-400 text-sm">{track.artist}</p>
+                <div className="w-10 h-10 rounded-full bg-indigo-700 flex items-center justify-center text-lg font-bold text-white shrink-0">
+                  {person.name[0].toUpperCase()}
                 </div>
-                <div className="text-right">
-                  <span className="inline-block bg-indigo-800 text-indigo-200 text-xs font-medium px-2.5 py-1 rounded-full">
-                    {track.genre}
-                  </span>
-                  <p className="text-gray-500 text-sm mt-1">{track.bpm} BPM</p>
-                </div>
-              </div>
+                <span className="text-lg font-medium">{person.name}</span>
+                <span className="ml-auto text-xs text-gray-600">
+                  #{person.id}
+                </span>
+              </li>
             ))}
-          </div>
+          </ul>
         )}
 
         <p className="mt-10 text-xs text-gray-600">
-          Seed endpoint:{" "}
+          Seed:{" "}
           <a href="/api/seed" className="underline hover:text-gray-400">
             /api/seed
           </a>

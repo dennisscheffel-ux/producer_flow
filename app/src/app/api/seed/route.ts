@@ -3,26 +3,21 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
   await sql`
-    CREATE TABLE IF NOT EXISTS tracks (
+    CREATE TABLE IF NOT EXISTS people (
       id SERIAL PRIMARY KEY,
-      title TEXT NOT NULL,
-      artist TEXT NOT NULL,
-      genre TEXT NOT NULL,
-      bpm INTEGER NOT NULL,
+      name TEXT NOT NULL,
       created_at TIMESTAMP DEFAULT NOW()
     )
   `;
 
-  await sql`DELETE FROM tracks`;
+  await sql`DELETE FROM people`;
 
   await sql`
-    INSERT INTO tracks (title, artist, genre, bpm) VALUES
-      ('Midnight Drive', 'DJ Nocturne', 'House', 128),
-      ('Solar Flare', 'Synthwave Steve', 'Synthwave', 110),
-      ('Concrete Jungle', 'MC Uptown', 'Hip-Hop', 95),
-      ('Ocean Drift', 'Chill Harbor', 'Lo-Fi', 75),
-      ('Neon Pulse', 'Electra V', 'Techno', 140)
+    INSERT INTO people (name) VALUES
+      ('Nate'),
+      ('Dennis'),
+      ('Jack')
   `;
 
-  return NextResponse.json({ message: "Database seeded successfully" });
+  return NextResponse.json({ message: "Database seeded with Nate, Dennis, and Jack" });
 }
